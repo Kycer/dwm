@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "Source Han Sans CN:size=16" };
+static const char dmenufont[]       = "Source Han Sans CN:size=16";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -26,9 +26,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class      						instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",     							NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",  							NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "netease-cloud-music",  	NULL,       NULL,       1 << 7,       0,           -1 },
+	{ "fcitx5-config-qt",  			NULL,       NULL,       0,						1,           -1 },
+	{ "URxvt",  								NULL,       NULL,       0,						1,           -1 },
 };
 
 /* layout(s) */
@@ -38,13 +41,13 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[T]",      tile },    /* first entry is default */
+	{ "[F]",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -59,20 +62,45 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+// rofi
+static const char *roficmd[] = { "rofi", "-show", "drun",  NULL };
+// ranger
+static const char *rangercmd[]  = { "st", "-e", "ranger",NULL };
+// scrot
+static const char *scrotfullcmd[]  = { "/home/kycer/.dotfiles/scripts/scrot.sh", NULL };
+static const char *scrotcmd[]  = { "/home/kycer/.dotfiles/scripts/scrot.sh", "a", NULL };
+// vol
+static const char *volupcmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-u", NULL };
+static const char *voldowncmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-d", NULL };
+static const char *volmutecmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-m", NULL };
+// trayer
+static const char *trayercmd[]  = { "/home/kycer/.dotfiles/scripts/traye-tg.sh", NULL };
+// lock
+static const char *lockcmd[]  = { "betterlockscreen", "-l", "dim", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
+	{ MODKEY,             					XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_e, 		 spawn,  				 {.v = rangercmd } },
+	{ MODKEY,                       XK_p, 		 spawn,  				 {.v = scrotfullcmd } },
+	{ MODKEY|ShiftMask,             XK_a, 		 spawn,  				 {.v = scrotcmd } },
+	{ MODKEY|ShiftMask,             XK_u, 		 spawn,  				 {.v = volupcmd } },
+	{ MODKEY|ShiftMask,             XK_d, 		 spawn,  				 {.v = voldowncmd } },
+	{ MODKEY|ShiftMask,             XK_m, 		 spawn,  				 {.v = volmutecmd } },
+	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 {.v = trayercmd } },
+	{ MODKEY|ShiftMask,             XK_l, 		 spawn,  				 {.v = lockcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_n,      incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_v,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_u, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -93,7 +121,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY,             					XK_w,      quit,           {0} },
 };
 
 /* button definitions */
