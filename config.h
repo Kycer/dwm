@@ -76,6 +76,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+// scratchpad
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 // rofi
 static const char *roficmd[] = { "rofi", "-show", "drun",  NULL };
 // ranger
@@ -95,6 +98,7 @@ static const char *lockcmd[]  = { "betterlockscreen", "-l", "dim", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
 	{ MODKEY,             					XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e, 		 spawn,  				 {.v = rangercmd } },
