@@ -115,6 +115,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 SHCMD(SCRIPT_PATH"/traye-tg.sh") },
 	{ MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
 	{ MODKEY|ShiftMask,             XK_s, 		 spawn,  				 SHCMD("flameshot gui") },
+	{ MODKEY|ShiftMask,             XK_e, 		 spawn,  				 SHCMD(SCRIPT_PATH"/rofi/powermenu.sh") },
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
