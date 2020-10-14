@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+#define SCRIPT_PATH "/home/kycer/.dotfiles/scripts"
+
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -34,7 +36,8 @@ static const unsigned int alphas[][3]      = {
 
 // autostart
 static const char *const autostart[] = {
-	"sh", "-c", "/home/kycer/.dotfiles/scripts/autostart.sh", NULL,
+	"sh", "-c", SCRIPT_PATH"/autostart.sh", NULL,
+	"sh", "-c", SCRIPT_PATH"/dwm_bar/bar.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -97,33 +100,21 @@ static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 // rofi
 static const char *roficmd[] = { "rofi", "-show", "drun",  NULL };
-// ranger
-static const char *rangercmd[]  = { "st", "-e", "ranger",NULL };
-// scrot
-static const char *scrotfullcmd[]  = { "/home/kycer/.dotfiles/scripts/scrot.sh", NULL };
-static const char *scrotcmd[]  = { "/home/kycer/.dotfiles/scripts/scrot.sh", "a", NULL };
-// vol
-static const char *volupcmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-u", NULL };
-static const char *voldowncmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-d", NULL };
-static const char *volmutecmd[]  = { "/home/kycer/.dotfiles/scripts/vol.sh", "-m", NULL };
-// trayer
-static const char *trayercmd[]  = { "/home/kycer/.dotfiles/scripts/traye-tg.sh", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
 	{ MODKEY,             					XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_e, 		 spawn,  				 {.v = rangercmd } },
-	{ MODKEY,                       XK_p, 		 spawn,  				 {.v = scrotfullcmd } },
-	{ MODKEY|ShiftMask,             XK_a, 		 spawn,  				 {.v = scrotcmd } },
-	{ MODKEY|ShiftMask,             XK_u, 		 spawn,  				 {.v = volupcmd } },
-	{ MODKEY|ShiftMask,             XK_d, 		 spawn,  				 {.v = voldowncmd } },
-	{ MODKEY|ShiftMask,             XK_m, 		 spawn,  				 {.v = volmutecmd } },
-	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 {.v = trayercmd } },
-	{ MODKEY|ShiftMask,             XK_l, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
+	{ MODKEY,                       XK_d,      spawn,          SHCMD("rofi -show drun") },
+	{ MODKEY,                       XK_e, 		 spawn,  				 SHCMD("st -e ranger") },
+	{ MODKEY|ShiftMask,             XK_u, 		 spawn,  				 SHCMD(SCRIPT_PATH"/vol.sh -u") },
+	{ MODKEY|ShiftMask,             XK_d, 		 spawn,  				 SHCMD(SCRIPT_PATH"/vol.sh -d") },
+	{ MODKEY|ShiftMask,             XK_m, 		 spawn,  				 SHCMD(SCRIPT_PATH"/vol.sh -m") },
+	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 SHCMD(SCRIPT_PATH"/traye-tg.sh") },
+	{ MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
 	{ MODKEY|ShiftMask,             XK_s, 		 spawn,  				 SHCMD("flameshot gui") },
+
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -132,6 +123,24 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_u, 		 zoom,           {0} },
+
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_Tab,    view,           {0} },
+	{ MODKEY,					              XK_w,      killclient,     {0} },
+
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,  setlayout,      {0} },
+
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY,             					XK_f,      togglefullscr,  {0} },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+
 	{ MODKEY|Mod1Mask,              XK_h,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_l,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_h,      incrogaps,      {.i = +1 } },
@@ -140,28 +149,16 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask|ControlMask,  XK_l,      incrigaps,      {.i = -1 } },
 	{ MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
-	{ MODKEY,                       XK_plus,   incrihgaps,     {.i = +1 } },
+	{ MODKEY,                       XK_equal,  incrihgaps,     {.i = +1 } },
 	{ MODKEY,                       XK_minus,  incrihgaps,     {.i = -1 } },
-	{ MODKEY|ControlMask,           XK_plus,   incrivgaps,     {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_equal,  incrivgaps,     {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_minus,  incrivgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_plus,   incrohgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask,              XK_equal,  incrohgaps,     {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_minus,  incrohgaps,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_plus,   incrovgaps,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  incrovgaps,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_minus,  incrovgaps,     {.i = -1 } },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,					              XK_w,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,             					XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -172,6 +169,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
+
+	{ 0, XF86XK_AudioMute,				spawn,		SHCMD(SCRIPT_PATH"/vol.sh -m") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD(SCRIPT_PATH"/vol.sh -u") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD(SCRIPT_PATH"/vol.sh -d") },
+	{ 0, XF86MonBrightnessUp,			spawn,		SHCMD("xbacklight -inc 10") },
+	{ 0, XF86MonBrightnessDown,		spawn,		SHCMD("xbacklight -dec 10") },
 };
 
 /* button definitions */
