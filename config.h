@@ -54,6 +54,7 @@ static const Rule rules[] = {
 	{ "Gimp",     							NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",  							NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "Chromium",  							NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Google-chrome",  				NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "jetbrains-idea",  				NULL,       NULL,       1 << 4,       0,           -1 },
 	{ "dingtalk",  							NULL,       NULL,       1 << 6,       0,           -1 },
 	{ "electronic-wechat",  		NULL,       NULL,       1 << 7,       0,           -1 },
@@ -66,6 +67,8 @@ static const Rule rules[] = {
 	{ "feh",  									NULL,       NULL,       0,						1,           -1 },
 	{ "Pavucontrol",  					NULL,       NULL,       0,						1,           -1 },
 	{ "Postman",  							NULL,       NULL,       0,						1,           -1 },
+	{ "qv2ray",  								NULL,       NULL,       0,						1,           -1 },
+	{ "Pcmanfm",  							NULL,       NULL,       0,						1,           -1 },
 };
 
 /* layout(s) */
@@ -115,7 +118,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 SHCMD(SCRIPT_PATH"/traye-tg.sh") },
 	{ MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
 	{ MODKEY|ShiftMask,             XK_s, 		 spawn,  				 SHCMD("flameshot gui") },
-	{ MODKEY|ShiftMask,             XK_e, 		 spawn,  				 SHCMD(SCRIPT_PATH"/rofi/powermenu.sh") },
+	{ MODKEY|ShiftMask,             XK_e, 		 spawn,  				 SHCMD("pcmanfm") },
+	{ MODKEY|ShiftMask,             XK_q, 		 spawn,  				 SHCMD(SCRIPT_PATH"/rofi/powermenu.sh") },
+	{ MODKEY|ShiftMask,             XK_c, 		 spawn,  				 SHCMD(SCRIPT_PATH"/wallpapers.sh c") },
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
