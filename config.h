@@ -12,9 +12,11 @@ static const unsigned int gappov    = 10;       /* vert outer gap between window
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
-static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
-static const char *altbarcmd        = SCRIPT_PATH"/polybar.sh"; /* Alternate bar launch command */
+static const int usealtbar          = 0;        /* 1 means use non-dwm status bar */
+static const char *altbarclass      = "dwm-bar"; /* Alternate bar class name */
+static const char *altbarcmd        = ""; /* Alternate bar launch command */
+// static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
+// static const char *altbarcmd        = SCRIPT_PATH"/polybar.sh"; /* Alternate bar launch command */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
 static const char *fonts[]          = { "Source Han Sans CN:size=16" };
 static const char dmenufont[]       = "Source Han Sans CN:size=16";
@@ -41,7 +43,7 @@ static const unsigned int alphas[][3]      = {
 // autostart
 static const char *const autostart[] = {
 	"sh", "-c", SCRIPT_PATH"/autostart.sh", NULL,
-	"sh", "-c", SCRIPT_PATH"/dwm_bar/bar.sh", NULL,
+	// "sh", "-c", SCRIPT_PATH"/dwm_bar/bar.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -119,7 +121,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_d, 		 spawn,  				 SHCMD(SCRIPT_PATH"/vol.sh -d") },
 	{ MODKEY|ShiftMask,             XK_m, 		 spawn,  				 SHCMD(SCRIPT_PATH"/vol.sh -m") },
 	{ MODKEY|ShiftMask,             XK_t, 		 spawn,  				 SHCMD(SCRIPT_PATH"/traye-tg.sh") },
-	{ MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
+	// { MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD("betterlockscreen -l dim") },
+		{ MODKEY|ShiftMask,             XK_x, 		 spawn,  				 SHCMD(SCRIPT_PATH"/lock/lock.sh") },
 	{ MODKEY|ShiftMask,             XK_s, 		 spawn,  				 SHCMD("flameshot gui") },
 	{ MODKEY|ShiftMask,             XK_e, 		 spawn,  				 SHCMD("pcmanfm") },
 	{ MODKEY|ShiftMask,             XK_q, 		 spawn,  				 SHCMD(SCRIPT_PATH"/rofi/powermenu.sh") },
